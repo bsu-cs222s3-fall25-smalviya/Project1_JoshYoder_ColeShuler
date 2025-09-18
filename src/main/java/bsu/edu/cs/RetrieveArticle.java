@@ -7,6 +7,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
+
 public class RetrieveArticle {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -14,6 +15,13 @@ public class RetrieveArticle {
         String jsonData = readJsonAsStringFrom(connection);
         printRawJson(jsonData);
     }//end main
+
+
+    public String run(String articleName) throws IOException, URISyntaxException {
+        URLConnection connection = connectToWikipedia(articleName);
+        return readJsonAsStringFrom(connection);
+    }//end run
+
 
     private static URLConnection connectToWikipedia(String articleName) throws IOException, URISyntaxException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
@@ -27,9 +35,11 @@ public class RetrieveArticle {
         return connection;
     }//end connectToWikipedia
 
+
     private static String readJsonAsStringFrom(URLConnection connection) throws IOException {
         return new String(connection.getInputStream().readAllBytes(), Charset.defaultCharset());
     }//end readJsonAsStringFrom
+
 
     private static void printRawJson(String jsonData) {
         System.out.println(jsonData);
