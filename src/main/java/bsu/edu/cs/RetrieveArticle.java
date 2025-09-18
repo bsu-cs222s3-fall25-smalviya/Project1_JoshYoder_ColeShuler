@@ -26,7 +26,7 @@ public class RetrieveArticle {
     private static URLConnection connectToWikipedia(String articleName) throws IOException, URISyntaxException {
         String encodedUrlString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=revisions&titles=" +
                 URLEncoder.encode(articleName, Charset.defaultCharset()) +
-                "&rvprop=timestamp" + URLEncoder.encode("|",Charset.defaultCharset()) + "user&rvlimit=4&redirects";
+                "&rvprop=timestamp" + URLEncoder.encode("|",Charset.defaultCharset()) + "user&rvlimit=15&redirects";
         URI uri = new URI(encodedUrlString);
         URLConnection connection = uri.toURL().openConnection();
         connection.setRequestProperty("User-Agent",

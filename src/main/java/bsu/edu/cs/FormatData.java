@@ -4,34 +4,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class FormatData {
+
+    protected String jsonString = null;
+
     public static void main(String[] args) {
-        // Example JSON string (this one has a page, change pageid to -1 to test missing)
-        String jsonString = """
-        {
-          "continue": {
-            "rvcontinue": "20250712175843|1300173523",
-            "continue": "||"
-          },
-          "query": {
-            "redirects": [
-              {"from": "Skyrim", "to": "The Elder Scrolls V: Skyrim"}
-            ],
-            "pages": {
-              "30014712": {
-                "pageid": 30014712,
-                "ns": 0,
-                "title": "The Elder Scrolls V: Skyrim",
-                "revisions": [
-                  {"user": "JJMC89 bot III", "timestamp": "2025-09-18T13:43:36Z"},
-                  {"user": "2600:4040:5A6F:3700:E0ED:6CA1:C93A:9409", "anon": "", "timestamp": "2025-09-04T20:00:46Z"},
-                  {"user": "GreenC bot", "timestamp": "2025-08-25T21:55:57Z"},
-                  {"user": "Dabmasterars", "timestamp": "2025-08-14T15:54:22Z"}
-                ]
-              }
-            }
-          }
-        }
-        """;
+
+    }//end main
+
+    public void run(){
 
         JSONObject root = new JSONObject(jsonString);
         JSONObject query = root.getJSONObject("query");
@@ -78,4 +58,10 @@ public class FormatData {
             }
         }
     }
-}
+
+
+    public void setJsonString(String tempString) {
+        jsonString = tempString;
+    }//end setJsonString
+
+}//end class

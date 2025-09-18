@@ -10,9 +10,15 @@ public class Main {
     public static void main(String[] args) throws IOException, URISyntaxException {
         Main instance = new Main();
         RetrieveArticle wiki = new RetrieveArticle();
+        FormatData fd = new FormatData();
         String jsonData = wiki.run(instance.getArticleName());
         System.out.println(jsonData);
+        System.out.println("\n\nFormatting Data...\n");
+        fd.setJsonString(jsonData);
+        fd.run();
     }//end main method
+
+
 
     public String getArticleName(){
         System.out.print("Search Article Name: ");
