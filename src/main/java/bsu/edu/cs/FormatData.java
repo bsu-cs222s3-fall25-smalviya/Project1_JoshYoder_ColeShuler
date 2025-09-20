@@ -1,67 +1,70 @@
 package bsu.edu.cs;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class FormatData {
 
-    protected String jsonString = null;
-
-    public static void main(String[] args) {
-
-    }//end main
-
-    public void run(){
-
+    // Public entry point: calls all steps in order
+    public static void processJson(String jsonString) {
         JSONObject root = new JSONObject(jsonString);
         JSONObject query = root.getJSONObject("query");
         JSONObject pages = query.getJSONObject("pages");
 
-        // Get first page key
-        String pageKey = pages.keys().next();
+        String pageKey = getFirstPageKey(pages);
         JSONObject page = pages.getJSONObject(pageKey);
 
-        // If page is missing (Wikipedia API returns "missing": true or pageid = -1)
-        if (pageKey.equals("-1") || page.has("missing")) {
-            System.out.println("⚠️ Article not found.");
+        if (isMissingPage(pageKey, page)) {
+            System.out.println("Article not found.");
             return;
-        }
+        }//end if
 
-        // Title
+        printTitle(page);
+        printRedirects(query);
+        printRevisions(page);
+    }//end processJson
+
+    public static String getFirstPageKey(JSONObject pages) {
+        return pages.keys().next();
+    }
+
+    public static boolean isMissingPage(String pageKey, JSONObject page) {
+        return pageKey.equals("-1") || page.has("missing");
+    }
+
+    public static void printTitle(JSONObject page) {
         String title = page.getString("title");
         System.out.println("Title: " + title);
+    }
 
-        // Redirects
+    public static void printRedirects(JSONObject query) {
         if (query.has("redirects")) {
-            JSONArray redirects = query.getJSONArray("redirects");
+            var redirects = query.getJSONArray("redirects");
             for (int i = 0; i < redirects.length(); i++) {
-                JSONObject r = redirects.getJSONObject(i);
+                var r = redirects.getJSONObject(i);
                 System.out.println("Redirect: " + r.getString("from") +
                         " → " + r.getString("to"));
             }
         }
+    }
 
-        // Revisions
+    public static void printRevisions(JSONObject page) {
         System.out.println("\nRevisions:");
         if (page.has("revisions")) {
-            JSONArray revisions = page.getJSONArray("revisions");
+            var revisions = page.getJSONArray("revisions");
             for (int i = 0; i < revisions.length(); i++) {
-                JSONObject rev = revisions.getJSONObject(i);
-                String user = rev.getString("user");
-                String timestamp = rev.getString("timestamp");
-                boolean anon = rev.has("anon");
-                if (anon) {
-                    System.out.println("- " + timestamp + ": " + user + " (anonymous)");
-                } else {
-                    System.out.println("- " + timestamp + ": " + user);
-                }
+                printRevision(revisions.getJSONObject(i));
             }
         }
     }
 
-
-    public void setJsonString(String tempString) {
-        jsonString = tempString;
-    }//end setJsonString
-
-}//end class
+    public static void printRevision(JSONObject rev) {
+        String user = rev.getString("user");
+        String timestamp = rev.getString("timestamp");
+        boolean anon = rev.has("anon");
+        if (anon) {
+            System.out.println("- " + timestamp + ": " + user + " (anonymous)");
+        } else {
+            System.out.println("- " + timestamp + ": " + user);
+        }
+    }
+}

@@ -14,8 +14,7 @@ public class Main {
         String jsonData = wiki.run(instance.getArticleName());
         System.out.println(jsonData);
         System.out.println("\n\nFormatting Data...\n");
-        fd.setJsonString(jsonData);
-        fd.run();
+        fd.processJson(jsonData);
     }//end main method
 
 
