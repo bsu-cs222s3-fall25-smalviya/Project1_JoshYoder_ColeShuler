@@ -11,7 +11,7 @@ public class RunApplication {
         try {
             run.runApplication();
         } catch (Exception e) {
-            System.out.println(e);
+            handleConnectionError(e.getMessage());
         }//end try/catch
         System.out.println("Application Terminated.");
     }//end main method
@@ -20,6 +20,7 @@ public class RunApplication {
     public void runApplication(){
         String articleName = getArticleName();
         checkForArticleName(articleName);
+        String jsonData = getRevisionData(articleName);
         String results;
     }//end runApplication
 
@@ -35,4 +36,21 @@ public class RunApplication {
             System.exit(0);
         }//end if
     }//end checkForArticleName
+
+    public String getRevisionData(String articleName){
+        try {
+            RetrieveArticleAPI retriever = new RetrieveArticleAPI();
+            return retriever.retrieveRevisionsFromAPI(articleName);
+        }//end try
+        catch (IOException e) {
+            return ("System Error: " + e.getMessage());
+        }//end catch
+    }//end getRevisionData
+
+
+    public static void handleConnectionError(String message){
+        System.err.println("System Error: " + message);
+        System.exit(0);
+    }//end handleConnectionError
+
 }//end class
