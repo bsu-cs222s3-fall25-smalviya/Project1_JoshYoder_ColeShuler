@@ -20,7 +20,7 @@ public class RunApplication {
     public void runApplication(){
         String articleName = getArticleName();
         checkForArticleName(articleName);
-
+        String results;
     }//end runApplication
 
     private String getArticleName() {
