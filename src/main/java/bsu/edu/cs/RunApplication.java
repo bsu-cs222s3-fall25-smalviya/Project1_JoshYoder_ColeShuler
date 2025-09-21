@@ -9,19 +9,20 @@ public class RunApplication {
         RunApplication run = new RunApplication();
         System.out.print("Starting Application...");
         try {
-            run.runApplication();
+            String articleName = run.getArticleName();
+            String results = run.runApplication(articleName);
+
         } catch (Exception e) {
             handleConnectionError(e.getMessage());
         }//end try/catch
-        System.out.println("Application Terminated.");
+        System.out.println("\nApplication Terminated.\n");
     }//end main method
 
 
-    public void runApplication(){
-        String articleName = getArticleName();
+    public String runApplication(String articleName){
         checkForArticleName(articleName);
         String jsonData = getRevisionData(articleName);
-        String results;
+        return jsonData;
     }//end runApplication
 
     private String getArticleName() {
@@ -35,6 +36,9 @@ public class RunApplication {
             System.err.print("\nSystem error: No Article Name entered. \nTerminating Application...");
             System.exit(0);
         }//end if
+        else{
+            System.out.print("Article Name: True");
+        }//end else
     }//end checkForArticleName
 
     public String getRevisionData(String articleName){
@@ -46,6 +50,7 @@ public class RunApplication {
             return ("System Error: " + e.getMessage());
         }//end catch
     }//end getRevisionData
+
 
 
     public static void handleConnectionError(String message){

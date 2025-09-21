@@ -1,6 +1,5 @@
 package bsu.edu.cs;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
@@ -15,6 +14,7 @@ public class RetrieveArticleAPI {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("User-Agent", "Revision Reporter/0.2 josh/yoder@bsu.edu");
             InputStream inputStream = connection.getInputStream();
+            System.out.print("\nArticle Successfully Retrieved");
             return new String(inputStream.readAllBytes());
         }//end try
 
