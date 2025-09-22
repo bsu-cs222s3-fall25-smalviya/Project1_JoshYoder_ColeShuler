@@ -7,14 +7,14 @@ import java.nio.charset.StandardCharsets;
 
 public class RetrieveArticleAPI {
 
-    public String retrieveRevisionsFromAPI(String article) throws IOException {
-        URL url = new URL(article);
+    public String retrieveArticleDataFromAPI(String article) throws IOException {
+        URL url = createURL(article);
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("User-Agent", "Revision Reporter/0.2 josh/yoder@bsu.edu");
             InputStream inputStream = connection.getInputStream();
-            System.out.print("\nArticle Successfully Retrieved");
+            System.out.print("\nArticle Successfully Retrieved:\n");
             return new String(inputStream.readAllBytes());
         }//end try
 

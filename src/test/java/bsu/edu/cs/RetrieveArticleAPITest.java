@@ -18,7 +18,7 @@ public class RetrieveArticleAPITest {
         RetrieveArticleAPI retriever = new RetrieveArticleAPI();
         boolean testFail = true;
         String search = "Zappa";
-        String data = retriever.retrieveRevisionsFromAPI(search);
+        String data = retriever.retrieveArticleDataFromAPI(search);
         if (!data.isEmpty()) {
             testFail = false;
         }//end if
@@ -30,7 +30,7 @@ public class RetrieveArticleAPITest {
     public void testConnectionFailure(){
         RetrieveArticleAPI retriever = new RetrieveArticleAPI();
         String search = "Zappa";
-        Assertions.assertThrows(IOException.class, () -> retriever.retrieveRevisionsFromAPI(search));
+        Assertions.assertThrows(IOException.class, () -> retriever.retrieveArticleDataFromAPI(search));
     }//end testConnectionFailure
 
 }//end RetrieveArticleAPITest

@@ -11,7 +11,7 @@ public class RunApplication {
         try {
             String articleName = run.getArticleName();
             String results = run.runApplication(articleName);
-
+            System.out.print("\n" + results);
         } catch (Exception e) {
             handleConnectionError(e.getMessage());
         }//end try/catch
@@ -20,15 +20,17 @@ public class RunApplication {
 
 
     public String runApplication(String articleName){
+        FormatData fd = new FormatData();
         checkForArticleName(articleName);
         String jsonData = getRevisionData(articleName);
-        return jsonData;
+        System.out.println(jsonData);
+        return fd.processJson(jsonData);
     }//end runApplication
 
     private String getArticleName() {
         Scanner input = new Scanner(System.in);
         System.out.print("\nPlease enter the article name: ");
-        return input.nextLine();
+        return input.nextLine().toLowerCase();
     }//end getArticleName
 
     private void checkForArticleName(String articleName){
@@ -44,14 +46,12 @@ public class RunApplication {
     public String getRevisionData(String articleName){
         try {
             RetrieveArticleAPI retriever = new RetrieveArticleAPI();
-            return retriever.retrieveRevisionsFromAPI(articleName);
+            return retriever.retrieveArticleDataFromAPI(articleName);
         }//end try
         catch (IOException e) {
             return ("System Error: " + e.getMessage());
         }//end catch
     }//end getRevisionData
-
-
 
     public static void handleConnectionError(String message){
         System.err.println("System Error: " + message);
