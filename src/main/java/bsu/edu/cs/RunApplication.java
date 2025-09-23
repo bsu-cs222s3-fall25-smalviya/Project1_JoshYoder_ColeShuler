@@ -7,8 +7,7 @@ public class RunApplication {
     public static void main(String[] args){
         RunApplication run = new RunApplication();
         try {
-            String results = run.runApplication();
-            System.out.print("\n" + results);
+            System.out.print("\n" + run.runApplication());
         } catch (Exception e) {
             handleConnectionError(e.getMessage());
         }//end try/catch

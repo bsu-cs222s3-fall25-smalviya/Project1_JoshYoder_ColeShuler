@@ -9,12 +9,13 @@ public class FormatData {
         JSONObject root = new JSONObject(jsonData);
         HandleExceptions exception = new HandleExceptions();
         StringBuilder sb = new StringBuilder();
+        SortRevisions sort  = new SortRevisions();
 
         exception.checkForArticle(root);
 
         sb.append(formatRedirect(root));
-        sb.append(formatTitle(root));
-        sb.append(formatRevisions(root));
+        //sb.append(formatTitle(root));
+        sb.append(sort.sortRevisions(jsonData));
 
         return sb.toString();
     }//end processJson
@@ -47,25 +48,5 @@ public class FormatData {
 
         return sb.toString();
     }//end formatTitle
-
-    public String formatRevisions(JSONObject root) {
-        StringBuilder sb = new StringBuilder();
-        JSONObject query = root.getJSONObject("query");
-        JSONArray pages = query.getJSONArray("pages");
-
-        for (int i = 0; i < pages.length(); i++) {
-            JSONObject page = pages.getJSONObject(i);
-            if (!page.has("revisions")) continue;
-
-            JSONArray revisions = page.getJSONArray("revisions");
-            for (int j = 0; j < revisions.length(); j++) {
-                JSONObject revision = revisions.getJSONObject(j);
-                String user = revision.getString("user");
-                String time =  revision.getString("timestamp");
-                sb.append(j + 1).append(" ").append(time).append("  ").append(user).append("\n");
-            }//end for
-        }//end for
-        return sb.toString();
-    }//end formatRevisions
 
 }//end class
