@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class SortRevisions {
 
-    private final ArrayList<revision> revisions = new ArrayList<revision>();
+    private final ArrayList<revision> revisions = new ArrayList<>();
 
 
     public static class revision{
