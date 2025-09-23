@@ -7,10 +7,10 @@ public class FormatData {
 
     public String processJson(String jsonData) {
         JSONObject root = new JSONObject(jsonData);
+        HandleExceptions exception = new HandleExceptions();
         StringBuilder sb = new StringBuilder();
-        FormatData fd = new FormatData();
 
-        fd.checkForArticle(root);
+        exception.checkForArticle(root);
 
         sb.append(formatRedirect(root));
         sb.append(formatTitle(root));
@@ -31,7 +31,7 @@ public class FormatData {
             JSONObject redirect = redirects.getJSONObject(i);
             String from = redirect.getString("from");
             String to = redirect.getString("to");
-            sb.append("Redirect: ").append(from).append(" to ").append(to).append("\n");
+            sb.append("From: ").append(from).append(" To: ").append(to).append("\n");
         }//end for
         return sb.toString();
     }//end formatRedirect
@@ -62,20 +62,10 @@ public class FormatData {
                 JSONObject revision = revisions.getJSONObject(j);
                 String user = revision.getString("user");
                 String time =  revision.getString("timestamp");
-                sb.append("Revision: ").append(user).append(" ").append(time).append("\n");
+                sb.append(j + 1).append(" ").append(time).append("  ").append(user).append("\n");
             }//end for
         }//end for
         return sb.toString();
     }//end formatRevisions
-
-    public void checkForArticle(JSONObject root) {
-        JSONObject query = root.getJSONObject("query");
-        JSONArray pages = query.getJSONArray("pages");
-        JSONObject page = pages.getJSONObject(0);
-        if(page.has("missing") && page.getBoolean("missing")) {
-            System.err.print("Page not found\n");
-            System.exit(0);
-        }//end if
-    }//end checkForArticle
 
 }//end class
