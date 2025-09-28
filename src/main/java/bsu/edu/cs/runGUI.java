@@ -1,8 +1,11 @@
 package bsu.edu.cs;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -39,21 +42,27 @@ public class runGUI extends Application {
         enter.setOnAction(e -> {
             String input =  textField.getText();
 
+            if(input.equals("")){
+                showErrorModal(primaryStage, "No article name entered");
+            }//end if
 
-            Stage resultStage = new Stage();
-            resultStage.setTitle(input);
+            //end if
+            else {
+                Stage resultStage = new Stage();
+                resultStage.setTitle(input);
 
-            Label label = null;
-            try {
-                label = new Label(run.getData(input));
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }//end try
+                Label label = null;
+                try {
+                    label = new Label(run.getData(input));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }//end try
 
-            Scene resultScene = new Scene(label, 300, 275);
-            resultStage.setScene(resultScene);
+                Scene resultScene = new Scene(label, 300, 275);
+                resultStage.setScene(resultScene);
 
-            resultStage.show();
+                resultStage.show();
+            }//end else
         });
 
     }//end start
@@ -63,5 +72,28 @@ public class runGUI extends Application {
         FormatData fd = new FormatData();
         return fd.processJson(retriever.retrieveArticleDataFromAPI(input));
     }//end getData
+
+    public void showErrorModal(Stage owner, String message) {
+        Stage errorStage = new Stage();
+        errorStage.setTitle("Error");
+
+        Label label = new Label(message);
+
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(e -> errorStage.close());
+
+        VBox layout = new VBox(10, label, closeButton);
+        layout.setPadding(new Insets(10));
+        layout.setAlignment(Pos.CENTER);
+
+        Scene scene = new Scene(layout, 300, 120);
+        errorStage.setScene(scene);
+
+        errorStage.initOwner(owner);
+        errorStage.initModality(Modality.WINDOW_MODAL);
+
+        errorStage.showAndWait();
+    }//end showErrorModal
+
 
 }//end class
